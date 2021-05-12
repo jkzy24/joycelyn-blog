@@ -9,15 +9,19 @@ from sqlalchemy.orm import relationship
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from forms import LoginForm, RegisterForm, CreatePostForm, CommentForm
 from flask_gravatar import Gravatar
+from flask_wtf.csrf import CSRFProtect
+
 import os
 from dotenv import load_dotenv
 
 load_dotenv('.env')
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
+
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['WTF_CSRF_SECRET_KEY'] = os.getenv('SECRET_KEY')
-
+csrf.init_app(app)
 
 ckeditor = CKEditor(app)
 Bootstrap(app)
